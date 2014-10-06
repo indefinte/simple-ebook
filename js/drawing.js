@@ -63,7 +63,7 @@ function startDraw(){
 	drawingAreaWidth = window.dW * window.zoom;
 	drawingAreaHeight = (window.dH * window.zoom) - 55;
 	
-	if(Modernizr.touch){
+	//if(Modernizr.touch){
 		// Add touch events	
 		$('#canvas').on('touchstart',function(e){
 			var touchEvent = e.originalEvent.changedTouches[0];        
@@ -87,7 +87,7 @@ function startDraw(){
 			//clearPoints
 			clearPoints();
 		});
-	}else{	
+	//}else{	
 		// Add mouse events
 		// ----------------
 		$('#canvas').on('mousedown',function(e){
@@ -113,13 +113,13 @@ function startDraw(){
 		$('#canvas').on('mouseleave',function(e){
 			paint = false;
 		});
-	}
+	//}
 }
 
 function stopDraw(){
 	//console.log('stopDraw');
 	$('#canvas').css('cursor','auto');
-	$('#canvas').off('touchstart touchmove mousedown mousemove mouseup mouseleave');   	
+	$('#canvas').off('touchstart touchmove touchend mousedown mousemove mouseup mouseleave');   	
 	//
 	clearPoints();
 	
