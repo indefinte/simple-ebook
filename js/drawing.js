@@ -156,26 +156,48 @@ function startZoom(zoom){
 	prepareCanvasSize();		
 	
 	$('#canvas').draggable({
-		drag: function(event, ui) {
-			//console.log('ui.position.left  = ' + ui.position.left );        
-			if (ui.position.top > 0) {
-				ui.position.top = 0;
+		drag: function(event, ui) {			
+			if(window.nH < $(this).height()){
+				//可視範圍 < 文件範圍
+				if (ui.position.top > 0) {
+					ui.position.top = 0;
+				}
+				if (ui.position.top < window.nH - $(this).height()) {
+					ui.position.top = window.nH - $(this).height();
+				}
+			}else{
+				//可視範圍 > 文件範圍
+				if (ui.position.top < 0) {
+					ui.position.top = 0;
+				}
+				if (ui.position.top > window.nH - $(this).height()) {
+					ui.position.top = window.nH - $(this).height();
+				}
 			}
-			if (ui.position.top < window.nH - $(this).height()) {
-				ui.position.top = window.nH - $(this).height();
-			}  
-			
-			if (ui.position.left > 0) {
-				ui.position.left = 0;
-			}
-			if (ui.position.left < window.nW - $(this).width()) {
-				ui.position.left = window.nW - $(this).width();
-			}    
+						
+			if(window.nW < $(this).width()){
+				//可視範圍 < 文件範圍
+				if (ui.position.left > 0) {
+					ui.position.left = 0;
+				}
+				if (ui.position.left < window.nW - $(this).width()) {
+					ui.position.left = window.nW - $(this).width();
+				}   
+			}else{
+				//可視範圍 > 文件範圍
+				if (ui.position.left < 0) {
+					ui.position.left = 0;
+				}
+				if (ui.position.left > window.nW - $(this).width()) {
+					ui.position.left = window.nW - $(this).width();
+				} 
+			}			
 			$('#page').offset({ top: ui.position.top, left: ui.position.left });
 		},
 		scroll: false,
 		disable: false
 	});
+
 	/*
 	$('body').bind('swipeone',function(){
 		console.log('swipeone');
