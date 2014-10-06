@@ -88,8 +88,9 @@ function startDraw(){
 	drawingAreaWidth = window.dW * window.zoom;
 	drawingAreaHeight = (window.dH * window.zoom) - 35;
 	
-	// Add touch events	
-	$('#canvas').on('touchstart',function(e){
+	if(Modernizr.touch){
+		// Add touch events	
+		$('#canvas').on('touchstart',function(e){
 		var touchEvent = e.originalEvent.changedTouches[0];        
 		var mouseX = touchEvent.pageX - this.offsetLeft;
 		var mouseY = touchEvent.pageY - this.offsetTop;
@@ -97,39 +98,40 @@ function startDraw(){
 		addClick(mouseX, mouseY, false);
 		redraw();
 	});
-    $('#canvas').on('touchmove',function(e){
+		$('#canvas').on('touchmove',function(e){
 		var touchEvent = e.originalEvent.changedTouches[0];
         e.preventDefault();
 		addClick(touchEvent.pageX - this.offsetLeft, touchEvent.pageY - this.offsetTop, true);
 		redraw();
 	});
-		
-	// Add mouse events
-	// ----------------
-	$('#canvas').on('mousedown',function(e){
-		// Mouse down location	
-		var mouseX = e.pageX - this.offsetLeft;
-		var mouseY = e.pageY - this.offsetTop;			
-		paint = true;
-		//console.log(mouseX + ',' + mouseY);
-		addClick(mouseX, mouseY, false);
-		redraw();
-	});	
-	$('#canvas').on('mousemove',function(e){
-		if(paint==true){
-			//addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-			//console.log((e.pageX - this.offsetLeft) + ',' + (e.pageY - this.offsetTop));
-			addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+	}else{	
+		// Add mouse events
+		// ----------------
+		$('#canvas').on('mousedown',function(e){
+			// Mouse down location	
+			var mouseX = e.pageX - this.offsetLeft;
+			var mouseY = e.pageY - this.offsetTop;			
+			paint = true;
+			//console.log(mouseX + ',' + mouseY);
+			addClick(mouseX, mouseY, false);
 			redraw();
-		}
-	});	
-	$('#canvas').on('mouseup',function(e){
-		paint = false;
-	  	redraw();
-	});
-	$('#canvas').on('mouseleave',function(e){
-		paint = false;
-	});
+		});	
+		$('#canvas').on('mousemove',function(e){
+			if(paint==true){
+				//addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+				//console.log((e.pageX - this.offsetLeft) + ',' + (e.pageY - this.offsetTop));
+				addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+				redraw();
+			}
+		});	
+		$('#canvas').on('mouseup',function(e){
+			paint = false;
+			redraw();
+		});
+		$('#canvas').on('mouseleave',function(e){
+			paint = false;
+		});
+	}
 }
 
 function stopDraw(){
@@ -151,8 +153,7 @@ function startZoom(zoom){
 	
 	stopDraw();
 
-	$('#page').width(window.dW * window.zoom).height(window.dH * window.zoom);
-	$('#canvas').attr({'width':window.dW * window.zoom,'height':window.dH * window.zoom});	
+	prepareCanvasSize();		
 	
 	$('#canvas').draggable({
 		drag: function(event, ui) {
@@ -201,8 +202,7 @@ function stopZoom(zoom){
 	
 	window.zoom = zoom || 1;
 	
-	$('#page').width(window.dW * window.zoom).height(window.dH * window.zoom);
-	$('#canvas').attr({'width':window.dW * window.zoom,'height':window.dH * window.zoom});		
+	prepareCanvasSize();	
 	
 	//remove ctrl
 	$('#canvas').draggable('destroy');	
@@ -232,7 +232,7 @@ function addClick(x, y, dragging)
 * Clears the canvas.
 */
 function clearCanvas()
-{
+{	
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 

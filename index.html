@@ -11,9 +11,9 @@
 <script type="text/javascript" src="js/extras/jquery-ui-1.8.20.custom.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.draggable.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.touch-punch.min.js"></script>
-<script type="text/javascript" src="js/extras/jquery.mousewheel.min.js"></script>
+<!-- <script type="text/javascript" src="js/extras/jquery.mousewheel.min.js"></script> -->
 <script type="text/javascript" src="js/extras/jgestures.min.js"></script>
-<script type="text/javascript" src="js/extras/modernizr.2.5.3.min.js"></script>
+<script type="text/javascript" src="js/extras/modernizr.2.8.3.min.js"></script>
 <!-- <script type="text/javascript" src="js/lib/hash.js"></script> -->
 <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 
@@ -36,7 +36,7 @@
 		-webkit-border-radius: 16px;
 		-moz-border-radius: 16px;
 		border-radius: 16px;
-		margin-right: 2px;		
+		margin: 2px 0 0 2px;		
 	}	
 	.btnArr {
 		position: fixed;
@@ -103,6 +103,13 @@
 window.allPages = 26;
 window.zoom = 1;
 
+$(window).resize(function(){
+	console.log('resize');	
+	location.reload();
+	var pg = localStorage.getItem('page') || 0;
+	setPage(pg);
+});
+
 function saveCanvas(){	
 	var page = "page" + getPage();
 	var data = $('#canvas')[0].toDataURL();
@@ -148,25 +155,36 @@ function prepareSize() {
 		oH = window.innerHeight;
 	}
 	window.nW = oW;
-	window.nH = oH;
+	window.nH = oH;	
 	window.dW = $('#page').width();
 	window.dH = $('#page').height();
 	
-	$('#canvas').attr({'width':window.dW,'height':window.dH});
+	prepareCanvasSize();
 	
-	canvasWidth = window.dW;
-	canvasHeight = window.dH;
+}
+function prepareCanvasSize(){
+	$('#page').width(window.dW * window.zoom).height(window.dH * window.zoom);
+	$('#canvas').attr({'width':window.dW * window.zoom,'height':window.dH * window.zoom});
+
+	canvasWidth = window.dW * window.zoom;
+	canvasHeight = window.dH * window.zoom;
+	
 	drawingAreaX = 0;
 	drawingAreaY = 35;
-	drawingAreaWidth = window.dW;
-	drawingAreaHeight = window.dH - 35;
-	
+	drawingAreaWidth = window.dW * window.zoom;
+	drawingAreaHeight = window.dH * window.zoom - 35;
 }
 function getPage(){
 	var np = $('#page').attr('src');
 	np = np.substring(6, np.length);
-	np = np.substring(0, np.length - 4);
+	np = np.substring(0, np.search('.png'));
 	return parseInt(np);
+}
+function setPage(pg){
+	saveCanvas();
+	resetCanvas();
+	$('#page').attr('src','pages/'+pg+'.png');
+	loadCanvas(pg);		
 }
 function goPage(dir){
 	saveCanvas();
@@ -178,7 +196,10 @@ function goPage(dir){
 		$('#page').removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 			$(this).removeClass();
 			loadCanvas(pg);
-		});		
+		});
+		if (typeof (localStorage) !== "undefined") {
+			localStorage.setItem('page', pg);
+		}
 	}else{
 		var pg = (np > 0) ? np - 1 : window.allPages;
 		$('#page').attr('src','pages/'+pg+'.png');
@@ -186,6 +207,9 @@ function goPage(dir){
 			$(this).removeClass();
 			loadCanvas(pg);
 		});
+		if (typeof (localStorage) !== "undefined") {
+			localStorage.setItem('page', pg);
+		}
 	}
 }
 function btnArrEvent(){			
@@ -278,7 +302,11 @@ function btnEvent(){
 		*/
 	}		
 }
-function loadApp() {
+function loadApp(){
+	if (typeof (localStorage) !== "undefined") {
+		localStorage.setItem('page', '0');
+	}
+
 	prepareSize();
 	prepareCanvas();
 
