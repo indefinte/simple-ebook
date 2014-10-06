@@ -281,7 +281,6 @@ function redraw()
 	context.beginPath();
 	context.rect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
 	context.clip();
-
 	
 	var radius;
 	var i = 0;
@@ -299,23 +298,16 @@ function redraw()
 			alert("Error: Radius is zero for click " + i);
 			radius = 0;	
 		}
-		
-		//console.log('radius = ' + radius);
-		
+
 		context.beginPath();
 		if(clickDrag[i] && i){
 			context.moveTo(clickX[i-1], clickY[i-1]);
-			//console.log('moveTo = ' + clickX[i-1] +','+ clickY[i-1]);
 		}else{
 			context.moveTo(clickX[i], clickY[i]);
-			//console.log('moveTo = ' + clickX[i] +','+ clickY[i]);
 		}
 		context.lineTo(clickX[i], clickY[i]);
-		//console.log('lineTo = ' + clickX[i] +','+ clickY[i]);
 		context.closePath();
-
-		//console.log('clickTool[i] = ' + clickTool[i]);
-
+		
 		if(clickTool[i] == "eraser"){								
 			context.globalCompositeOperation = "destination-out"; // To erase instead of draw over with white
 			context.fillStyle = "rgba(0,0,0,1)";
@@ -334,12 +326,14 @@ function redraw()
 	//context.globalCompositeOperation = "source-over";// To erase instead of draw over with white
 	context.restore();
 	
-	// Overlay a crayon texture (if the current tool is crayon)
+	// Overlay a crayon texture (if the current tool is crayon)	
+	/*
 	if(curTool == "crayon"){
 		context.globalCompositeOperation = "source-atop";
 		context.globalAlpha = 0.4; // No IE support
 		context.drawImage(crayonTextureImage, 0, 0, canvasWidth, canvasHeight);
 	}
+	*/
 	context.globalAlpha = 1; // No IE support
 
 }
