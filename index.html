@@ -50,10 +50,10 @@
 	}
 	.bExt { display: none; }
 	
-	.bZoom.clk { background-color: #CAFF7A; }
+	.bZoom.clk { background-color: #CAFF7A; background-image: url(images/zoomout.png); }
 	.bTool.clk { background-color: #CCE6FF; }
 	
-	.bZoom { color: #003870; background-color: #B1FF3D; background-repeat: no-repeat; background-position: center; background-image: url(images/zoom.png); }		
+	.bZoom { color: #003870; background-color: #B1FF3D; background-repeat: no-repeat; background-position: center; background-image: url(images/zoomin.png); }		
 	.bTool { color: #003870; background-color: #29B8FF; background-repeat: no-repeat; background-position: center; background-image: url(images/tool.png); }		
 	.bClear { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/clear.png); }		
 	.bEraser { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/eraser.png); }		
@@ -186,7 +186,10 @@ function setPage(pg){
 	saveCanvas();
 	resetCanvas();
 	$('#page').attr('src','pages/'+pg+'.png');
-	loadCanvas(pg);		
+	loadCanvas(pg);
+	if (typeof (localStorage) !== "undefined") {
+		localStorage.setItem('page', pg);
+	}	
 }
 function goPage(dir){
 	saveCanvas();
