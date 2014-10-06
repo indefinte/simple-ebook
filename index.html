@@ -18,7 +18,13 @@
 <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 
 <style>
-	body { margin: 0; padding: 0; }
+	body { 
+		margin: 0; 
+		padding: 0; 	
+		-webkit-user-select: none; //disables selection
+        -webkit-tap-highlight-color: rgba(0,0,0,0); // disables the actual highlight
+        -webkit-touch-callout: none;  //disables the download and save popup
+	}
 	
 	#bookDiv { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 1; overflow: hidden; }
 	#page { position: absolute; left: 0; top: 0; width: 100%; z-index: 10; }	
