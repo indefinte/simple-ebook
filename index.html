@@ -103,6 +103,8 @@
 window.allPages = 26;
 window.zoom = 1;
 
+document.onselectstart = new function(){ return false; }
+
 $(window).resize(function(){
 	console.log('resize');	
 	location.reload();
