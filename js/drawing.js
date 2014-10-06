@@ -17,54 +17,29 @@ var canvas;
 var context;
 var canvasWidth = 960;
 var canvasHeight = 600;
-//var padding = 25;
+
 var lineWidth = 8;
 var colorPurple = "#cb3594";
 var colorGreen = "#659b41";
 var colorYellow = "#ffcf33";
 var colorBrown = "#986928";
-var outlineImage = new Image();
-var crayonImage = new Image();
-var markerImage = new Image();
-var eraserImage = new Image();
-var crayonBackgroundImage = new Image();
-var markerBackgroundImage = new Image();
-var eraserBackgroundImage = new Image();
-var crayonTextureImage = new Image();
+
 var clickX = new Array();
 var clickY = new Array();
 var clickColor = new Array();
 var clickTool = new Array();
 var clickSize = new Array();
 var clickDrag = new Array();
+
 var paint = false;
 var curColor = colorPurple;
 var curTool = "marker";
 var curSize = "normal";
-var mediumStartX = 18;
-var mediumStartY = 19;
-var mediumImageWidth = 93;
-var mediumImageHeight = 46;
 
 var drawingAreaX = 0;
 var drawingAreaY = 0;
 var drawingAreaWidth = 960;
 var drawingAreaHeight = 600;
-/*
-var drawingAreaX = 111;
-var drawingAreaY = 11;
-var drawingAreaWidth = 267;
-var drawingAreaHeight = 200;
-*/
-var toolHotspotStartY = 23;
-var toolHotspotHeight = 38;
-var sizeHotspotStartY = 157;
-var sizeHotspotHeight = 36;
-var sizeHotspotWidthObject = new Object();
-sizeHotspotWidthObject.huge = 39;
-sizeHotspotWidthObject.large = 25;
-sizeHotspotWidthObject.normal = 18;
-sizeHotspotWidthObject.small = 16;
 
 /**
 * Creates a canvas element, loads images, adds events, and draws the canvas for the first time.
@@ -94,15 +69,23 @@ function startDraw(){
 			var touchEvent = e.originalEvent.changedTouches[0];        
 			var mouseX = touchEvent.pageX - this.offsetLeft;
 			var mouseY = touchEvent.pageY - this.offsetTop;
-			
+			paint = true;
 			addClick(mouseX, mouseY, false);
-			redraw();
+			//redraw();
 		});
 		$('#canvas').on('touchmove',function(e){
 			var touchEvent = e.originalEvent.changedTouches[0];
-			e.preventDefault();
-			addClick(touchEvent.pageX - this.offsetLeft, touchEvent.pageY - this.offsetTop, true);
-			redraw();
+			e.preventDefault(); //cancel scrolling
+			if(paint==true){
+				addClick(touchEvent.pageX - this.offsetLeft, touchEvent.pageY - this.offsetTop, true);
+				redraw();
+			}
+
+		});
+		$('#canvas').on('touchend',function(e){
+			paint = false;
+			//clearPoints
+			clearPoints();
 		});
 	}else{	
 		// Add mouse events
@@ -112,21 +95,20 @@ function startDraw(){
 			var mouseX = e.pageX - this.offsetLeft;
 			var mouseY = e.pageY - this.offsetTop;			
 			paint = true;
-			//console.log(mouseX + ',' + mouseY);
 			addClick(mouseX, mouseY, false);
-			redraw();
+			//redraw();
 		});	
 		$('#canvas').on('mousemove',function(e){
 			if(paint==true){
-				//addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-				//console.log((e.pageX - this.offsetLeft) + ',' + (e.pageY - this.offsetTop));
 				addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-				redraw();
+				redraw();				
 			}
 		});	
 		$('#canvas').on('mouseup',function(e){
 			paint = false;
-			redraw();
+			redraw();	
+			//clearPoints
+			clearPoints();			
 		});
 		$('#canvas').on('mouseleave',function(e){
 			paint = false;
@@ -138,7 +120,9 @@ function stopDraw(){
 	//console.log('stopDraw');
 	$('#canvas').css('cursor','auto');
 	$('#canvas').off('touchstart touchmove mousedown mousemove mouseup mouseleave');   	
-
+	//
+	clearPoints();
+	
 	//ext
 	if($('.bTool').hasClass('clk')){
 		$('.bTool').removeClass('clk');
@@ -253,19 +237,19 @@ function addClick(x, y, dragging)
 /**
 * Clears the canvas.
 */
-function clearCanvas()
-{	
+function clearCanvas(){	
 	context.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-
-function resetCanvas()
-{
+function clearPoints(){
 	clickX = new Array();
 	clickY = new Array();
 	clickColor = new Array();
 	clickTool = new Array();
 	clickSize = new Array();
 	clickDrag = new Array();
+}
+function resetCanvas(){
+	clearPoints();
 	clearCanvas();
 }
 /**
@@ -284,8 +268,10 @@ function redraw()
 	
 	var radius;
 	var i = 0;
+	//console.log('points = ' + clickX.length);
 	for(; i < clickX.length; i++)
-	{		
+	{	
+		/*
 		if(clickSize[i] == "small"){
 			radius = 2;
 		}else if(clickSize[i] == "normal"){
@@ -298,11 +284,15 @@ function redraw()
 			alert("Error: Radius is zero for click " + i);
 			radius = 0;	
 		}
-
+		*/
+		radius = 5;
+		
 		context.beginPath();
 		if(clickDrag[i] && i){
+			//stop
 			context.moveTo(clickX[i-1], clickY[i-1]);
 		}else{
+			//start
 			context.moveTo(clickX[i], clickY[i]);
 		}
 		context.lineTo(clickX[i], clickY[i]);
@@ -321,19 +311,8 @@ function redraw()
 		context.lineWidth = radius * window.zoom;
 		context.stroke();
 		
-	}
-
-	//context.globalCompositeOperation = "source-over";// To erase instead of draw over with white
+	}	
 	context.restore();
-	
-	// Overlay a crayon texture (if the current tool is crayon)	
-	/*
-	if(curTool == "crayon"){
-		context.globalCompositeOperation = "source-atop";
-		context.globalAlpha = 0.4; // No IE support
-		context.drawImage(crayonTextureImage, 0, 0, canvasWidth, canvasHeight);
-	}
-	*/
 	context.globalAlpha = 1; // No IE support
 
 }

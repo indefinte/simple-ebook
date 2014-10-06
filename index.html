@@ -1,9 +1,5 @@
 <!doctype html>
-<!--[if lt IE 7 ]> <html lang="zh" class="ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="zh" class="ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="zh" class="ie8"> <![endif]-->
-<!--[if IE 9 ]>    <html lang="zh" class="ie9"> <![endif]-->
-<!--[if !IE]><!--> <html lang="zh"> <!--<![endif]-->
+<html lang="zh">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -13,8 +9,6 @@
 <script type="text/javascript" src="js/extras/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="js/extras/jgestures.min.js"></script>
 <script type="text/javascript" src="js/extras/modernizr.2.8.3.min.js"></script>
-<!-- <script type="text/javascript" src="js/lib/hash.js"></script> -->
-<!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 
 <style>
 	body { 
@@ -90,8 +84,6 @@
 	<canvas id="canvas"></canvas>	
 </div>
 <div class="bGroup">
-	<!-- <div class="btn bLeft" title="上一頁">P</div> -->
-	<!-- <div class="btn bRight" title="下一頁">N</div> -->
 	<div class="btn bZoom" title="放大檢視"></div>
 	<div class="btn bTool" title="撰寫附註"></div>
 	<div class="btn bExt bClear" title="清除畫面"></div>
@@ -130,21 +122,12 @@ function saveCanvas(){
 function loadCanvas(pg) {		
 	var page = "page" + ((pg != null) ? pg : getPage());  
 	var context = $('#canvas')[0].getContext('2d');
-	/*
-	var bgImage = new Image();
-	bgImage.onload = function() {
-		context.drawImage(this, 0, 0, window.nW, window.nH);
-	};
-	bgImage.src = './pages/' + pg + '.png';
-	*/
 	
 	var data = localStorage.getItem(page);
 	if(data != null){			
 		var imageObj = new Image();
 		imageObj.onload = function() {
-			//context.drawImage(this, 0, 0);
 			context.drawImage(this, 0, 0, window.dW * window.zoom, window.dH * window.zoom);
-			//console.log('loadCanvas = ' + page);
 		};
 		imageObj.src = data;
 	}
@@ -213,16 +196,6 @@ function goPage(dir){
 				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
-			/*
-			$('#page').attr('src','pages/'+pg+'.png').show();		
-			$('#page').removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				$(this).removeClass();
-				loadCanvas(pg);
-			});
-			if (typeof (localStorage) !== "undefined") {
-				localStorage.setItem('page', pg);
-			}
-			*/
 		});
 		
 	}else{
@@ -238,16 +211,6 @@ function goPage(dir){
 				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
-			/*
-			$('#page').attr('src','pages/'+pg+'.png').show();
-			$('#page').removeClass().addClass('fadeInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				$(this).removeClass();
-				loadCanvas(pg);
-			});
-			if (typeof (localStorage) !== "undefined") {
-				localStorage.setItem('page', pg);
-			}
-			*/
 		});		
 	}
 }
@@ -310,35 +273,7 @@ function btnEvent(){
 		case $(this).hasClass('bBrown'):
 			curTool = "marker";
 			curColor = colorBrown;
-		break;	
-		/*
-		case $(this).hasClass('bLeft'):
-			goPage(0);					
-		break;
-		case $(this).hasClass('bRight'):
-			goPage(1);
-		break;
-		case $(this).hasClass('bMarker'):
-			curTool = "marker";
-		break;	
-		case $(this).hasClass('bCrayon'):
-			curTool = "crayon";
-		break;	
-		case $(this).hasClass('bNote'):
-			if($(this).hasClass('clk')){
-				$(this).removeClass('clk');
-				$('#noteDiv').hide();
-				$('.bTool').fadeOut();
-				$('.bExt').fadeOut();
-				saveCanvas();				
-			}else{	
-				$(this).addClass('clk');						
-				$('#noteDiv').show();
-				$('.bTool').fadeIn();	
-				loadCanvas();	
-			}
-		break;
-		*/
+		break;			
 	}		
 }
 function loadApp(){
