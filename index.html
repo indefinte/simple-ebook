@@ -203,24 +203,29 @@ function goPage(dir){
 	var np = getPage();
 	if(dir > 0){
 		var pg = (np < window.allPages) ? np + 1 : 0;
-		$('#page').attr('src','pages/'+pg+'.png');		
-		$('#page').removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$(this).removeClass();
-			loadCanvas(pg);
+		$('#page').fadeOut(function(){
+			$('#page').attr('src','pages/'+pg+'.png').show();		
+			$('#page').removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass();
+				loadCanvas(pg);
+			});
+			if (typeof (localStorage) !== "undefined") {
+				localStorage.setItem('page', pg);
+			}
 		});
-		if (typeof (localStorage) !== "undefined") {
-			localStorage.setItem('page', pg);
-		}
+		
 	}else{
 		var pg = (np > 0) ? np - 1 : window.allPages;
-		$('#page').attr('src','pages/'+pg+'.png');
-		$('#page').removeClass().addClass('fadeInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			$(this).removeClass();
-			loadCanvas(pg);
-		});
-		if (typeof (localStorage) !== "undefined") {
-			localStorage.setItem('page', pg);
-		}
+		$('#page').fadeOut(function(){
+			$('#page').attr('src','pages/'+pg+'.png').show();
+			$('#page').removeClass().addClass('fadeInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				$(this).removeClass();
+				loadCanvas(pg);
+			});
+			if (typeof (localStorage) !== "undefined") {
+				localStorage.setItem('page', pg);
+			}
+		});		
 	}
 }
 function btnArrEvent(){			
