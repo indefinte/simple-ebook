@@ -266,27 +266,11 @@ function redraw()
 	context.rect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
 	context.clip();
 	
-	var radius;
+	var radius = 1;
 	var i = 0;
-	//console.log('points = ' + clickX.length);
+	
 	for(; i < clickX.length; i++)
-	{	
-		/*
-		if(clickSize[i] == "small"){
-			radius = 2;
-		}else if(clickSize[i] == "normal"){
-			radius = 5;
-		}else if(clickSize[i] == "large"){
-			radius = 10;
-		}else if(clickSize[i] == "huge"){
-			radius = 20;
-		}else{
-			alert("Error: Radius is zero for click " + i);
-			radius = 0;	
-		}
-		*/
-		radius = 5;
-		
+	{			
 		context.beginPath();
 		if(clickDrag[i] && i){
 			//stop
@@ -306,12 +290,14 @@ function redraw()
 		}else{
 			context.globalCompositeOperation = "source-over";	// To erase instead of draw over with white
 			context.strokeStyle = clickColor[i];
+			radius = 5;
 		}
 		context.lineJoin = "round";
 		context.lineWidth = radius * window.zoom;
 		context.stroke();
 		
 	}	
+	
 	context.restore();
 	context.globalAlpha = 1; // No IE support
 

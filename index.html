@@ -6,6 +6,7 @@
 <script type="text/javascript" src="js/extras/jquery.min.1.7.js"></script>
 <script type="text/javascript" src="js/extras/jquery-ui-1.8.20.custom.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.draggable.min.js"></script>
+<script type="text/javascript" src="js/extras/jquery.ui.droppable.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="js/extras/jgestures.min.js"></script>
 <script type="text/javascript" src="js/extras/modernizr.2.8.3.min.js"></script>
@@ -19,13 +20,41 @@
         -webkit-touch-callout: none;  //disables the download and save popup
 	}
 	
+	::-webkit-scrollbar { width: 5px; height: 5px; background: url(images/blank.gif); }
+	::-webkit-scrollbar-thumb:horizontal { background: rgba(0, 0, 0, 0.2); border-style: solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.25); border-radius: 2px; }
+	::-webkit-scrollbar-thumb:horizontal:hover { background: rgb(0, 0, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 255, 255); border-radius: 2px; box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.4); }
+	::-webkit-scrollbar-thumb:vertical { background: rgba(0, 0, 0, 0.2); border-style: solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.25); border-radius: 2px; }
+	::-webkit-scrollbar-thumb:vertical:hover { background: rgb(0, 0, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 255, 255);  border-radius: 2px; box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.4); }
+	
 	#bookDiv { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 1; overflow: hidden; }
 	#page { position: absolute; left: 0; top: 0; width: 100%; z-index: 10; }	
 	#canvas { position: absolute; left: 0; top: 0; z-index: 100; }
+	#note { position: absolute; left: 0; top: 0; z-index: 110; }
+	.nt {
+		position: relative;
+		left: 60px; 
+		top: 60px;
+		padding: 5px;
+		font-size: 12px;
+		line-height: 16px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px; 
+		color: rgb(0,0,51); 
+		background-color: rgba(51,102,255,.5);
+	}
 	
-	.bGroup { position: absolute; left: 0; top: 0; z-index: 999; }
+	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width 1s; transition: width 1s; }
+	.pGroup img {
+		cursor: pointer;
+		width: 60px;
+		height: auto;
+		border: 1px solid #000;
+		margin: 2px;
+	}
+	.bGroup { position: absolute; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
-		float: left;
+		/* float: left; */
 		cursor: pointer;
 		border: 1px solid #5252FF;		
 		width: 32px;
@@ -35,7 +64,7 @@
 		-webkit-border-radius: 16px;
 		-moz-border-radius: 16px;
 		border-radius: 16px;
-		margin: 20px 0 0 2px;		
+		margin: 2px 2px 0 0		
 	}	
 	.btnArr {
 		position: fixed;
@@ -47,12 +76,28 @@
 		line-height: 32px;
 		z-index: 999;
 	}
+	.btnOne {
+		position: fixed;
+		cursor: pointer;
+		border: 1px solid #5252FF;		
+		width: 32px;
+		height: 32px;
+		text-align: center;
+		line-height: 32px;
+		z-index: 999;
+		-webkit-border-radius: 16px;
+		-moz-border-radius: 16px;
+		border-radius: 16px;
+	}
 	.bExt { display: none; }
 	
+	.bTrash.clk { background-color: #FF0000; }
+	.bPage.clk { background-color: #E0E0E0; }
 	.bZoom.clk { background-color: #CAFF7A; background-image: url(images/zoomout.png); }
 	.bTool.clk { background-color: #CCE6FF; }
 	
 	.bZoom { color: #003870; background-color: #B1FF3D; background-repeat: no-repeat; background-position: center; background-image: url(images/zoomin.png); }		
+	.bNote { color: #003870; background-color: #29B8FF; background-repeat: no-repeat; background-position: center; background-image: url(images/note.png); }		
 	.bTool { color: #003870; background-color: #29B8FF; background-repeat: no-repeat; background-position: center; background-image: url(images/tool.png); }		
 	.bClear { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/clear.png); }		
 	.bEraser { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/eraser.png); }		
@@ -63,8 +108,11 @@
 	.bBrown { color: #003870; background-color: #A35200; }
 	.bLeft{ left: 0; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/arrL.png); -webkit-border-top-right-radius: 16px; -moz-border-radius-topright: 16px; border-top-right-radius: 16px;  }
 	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 16px; -moz-border-radius-topleft: 16px; border-top-left-radius: 16px; }
+	.bPage{ left: 2px; top: 22px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
+	.bTrash{ left: 48%; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/trash.png); background-color: #FFF; }
 	
 	.bZoom:hover { background-color: #CAFF7A; }
+	.bNote:hover { background-color: #CCE6FF; }
 	.bTool:hover { background-color: #CCE6FF; }
 	.bClear:hover { background-color: #FFFFFF; }
 	.bEraser:hover { background-color: #FFFFFF; }
@@ -75,6 +123,9 @@
 	.bBrown:hover { background-color: #E07000; }
 	.bLeft:hover { background-color: #E0E0E0; }
 	.bRight:hover { background-color: #E0E0E0; }
+	.bPage:hover { background-color: #E0E0E0; }
+	.bTrash:hover { background-color: #E0E0E0; }
+	
 </style>
 </head>
 <body>
@@ -82,9 +133,11 @@
 <div id="bookDiv">
 	<img id="page" src="pages/1.png">
 	<canvas id="canvas"></canvas>	
+	<div id="note"></div>
 </div>
 <div class="bGroup">
 	<div class="btn bZoom" title="放大檢視"></div>
+	<div class="btn bNote" title="加入註記"></div>
 	<div class="btn bTool" title="撰寫附註"></div>
 	<div class="btn bExt bClear" title="清除畫面"></div>
 	<div class="btn bExt bEraser" title="橡皮擦"></div>	
@@ -95,6 +148,10 @@
 </div>
 <div class="btnArr bLeft" title="上一頁"></div>
 <div class="btnArr bRight" title="下一頁"></div>
+<div class="btnOne bTrash" title="垃圾桶"></div>
+<div class="btnOne bPage" title="頁籤"></div>
+<div class="pGroup"></div>
+
 
 <script type="text/javascript">
 window.allPages = 26;
@@ -108,6 +165,63 @@ $(window).resize(function(){
 	var pg = localStorage.getItem('page') || 0;
 	setPage(pg);
 });
+
+function addNote(){
+	var msg = prompt("加入註記", "");
+	if(msg != ""){
+		addNoteDiv(msg);
+	}
+}
+
+function addNoteDiv(s){
+	$('<div class="nt">' + s + '</div>').draggable({
+		drag: function(event, ui) {			
+			if(window.nH < $(this).height()){
+				//可視範圍 < 文件範圍
+				if (ui.position.top > 0) {
+					ui.position.top = 0;
+				}
+				if (ui.position.top < window.nH - $(this).height()) {
+					ui.position.top = window.nH - $(this).height();
+				}
+			}else{
+				//可視範圍 > 文件範圍
+				if (ui.position.top < 0) {
+					ui.position.top = 0;
+				}
+				if (ui.position.top > window.nH - $(this).height()) {
+					ui.position.top = window.nH - $(this).height();
+				}
+			}
+						
+			if(window.nW < $(this).width()){
+				//可視範圍 < 文件範圍
+				if (ui.position.left > 0) {
+					ui.position.left = 0;
+				}
+				if (ui.position.left < window.nW - $(this).width()) {
+					ui.position.left = window.nW - $(this).width();
+				}   
+			}else{
+				//可視範圍 > 文件範圍
+				if (ui.position.left < 0) {
+					ui.position.left = 0;
+				}
+				if (ui.position.left > window.nW - $(this).width()) {
+					ui.position.left = window.nW - $(this).width();
+				} 
+			}						
+		},
+		scroll: false,
+		cursor: 'move'
+	}).css({'left':Math.floor(window.nW / 2),'top':Math.floor(window.nH / 2)}).appendTo('#note');
+}
+
+function loadPages(){
+	for(var i = 0; i <= window.allPages; i++){
+		$('<img src="pages/' + i + '.png" alt="' + i + '">').appendTo('.pGroup');
+	}
+}
 
 function saveCanvas(){	
 	var page = "page" + getPage();
@@ -214,6 +328,27 @@ function goPage(dir){
 		});		
 	}
 }
+
+function btnPageEvent(e){			
+	var target = $(e.target);
+	if (target.is('img')){
+		var pg = target.attr('alt') || 0;
+		setPage(pg);
+	}	
+}
+function btnOneEvent(){			
+	switch(true){
+		case $(this).hasClass('bPage'):
+			if($(this).hasClass('clk')){
+				$(this).removeClass('clk');	
+				$('.pGroup').width(0);
+			}else{	
+				$(this).addClass('clk');					
+				$('.pGroup').width(80);
+			}								
+		break;
+	}		
+}
 function btnArrEvent(){			
 	switch(true){
 		case $(this).hasClass('bLeft'):
@@ -238,7 +373,10 @@ function btnEvent(){
 				stopZoom();				
 				startZoom(2);
 			}
-		break;		
+		break;
+		case $(this).hasClass('bNote'):
+			addNote();
+		break;
 		case $(this).hasClass('bTool'):
 			if($(this).hasClass('clk')){
 				$(this).removeClass('clk');
@@ -286,9 +424,24 @@ function loadApp(){
 
 	$('.btn').on('click swipeone', btnEvent);
 	$('.btnArr').on('click swipeone', btnArrEvent);	
+	$('.btnOne').on('click swipeone', btnOneEvent);	
+	$('.pGroup').on('click swipeone', btnPageEvent);		
 	
 	startZoom(1);
 	loadCanvas();	
+	
+	loadPages();
+	
+	//Trash
+	$('.bTrash').droppable({
+      accept: '.nt',
+      activeClass: 'ui-state-highlight',
+	  hoverClass: 'clk',
+      drop: function(event, ui) {
+		//console.log(ui.draggable);
+        ui.draggable.remove();
+      }
+    });
 }
 
 yepnope({
