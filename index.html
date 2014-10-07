@@ -31,17 +31,20 @@
 	#canvas { position: absolute; left: 0; top: 0; z-index: 100; }
 	#note { position: absolute; left: 0; top: 0; z-index: 110; }
 	.nt {
-		position: relative;
+		position: absolute;
 		left: 60px; 
 		top: 60px;
 		padding: 5px;
-		font-size: 12px;
-		line-height: 16px;
+		font-size: 12pt;
+		line-height: 16pt;
 		-webkit-border-radius: 5px;
 		-moz-border-radius: 5px;
 		border-radius: 5px; 
-		color: rgb(0,0,51); 
+		color: rgb(255,255,255); 
 		background-color: rgba(51,102,255,.5);
+		word-wrap: break-word;
+		word-break: normal;
+		overflow: auto;
 	}
 	
 	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width 1s; transition: width 1s; }
@@ -180,9 +183,10 @@ function addNote(){
 		addNoteDiv(msg);
 	}
 }
-
-function addNoteDiv(s){
-	$('<div class="nt">' + s + '</div>').draggable({
+function addNoteDiv(s,l,t){
+	var l = l || Math.floor(window.nW / 2);
+	var t = t || Math.floor(window.nH / 2);
+	$('<div class="nt">' + s + '</div>').appendTo('#note').draggable({
 		drag: function(event, ui) {			
 			if(window.nH < $(this).height()){
 				//可視範圍 < 文件範圍
@@ -222,7 +226,47 @@ function addNoteDiv(s){
 		},
 		scroll: false,
 		cursor: 'move'		
-	}).css({'left':Math.floor(window.nW / 2),'top':Math.floor(window.nH / 2)}).appendTo('#note');
+	}).offset({ top: t, left: l }).css({'max-width':Math.floor(window.nW / 3) + 'px','max-height':Math.floor(window.nH / 3) + 'px'});
+	//console.log('top: '+t+', left: '+l);
+}
+
+function saveNotes(){
+	var page = "note" + getPage();
+	var ar = new Array();
+	$('.nt').each(function(i){
+		var offset = $(this).offset();
+		ar[i] = offset.left + '|||||' + offset.top + '|||||' + $(this).text();
+	});
+	var data = ar.join('@@@@@');
+	
+	if (typeof (localStorage) !== "undefined") {
+		localStorage.setItem(page, data);
+	}else{
+		alert('Local Storage not supported.');
+	}
+}
+
+function loadNotes(pg){
+	var page = "note" + ((pg != null) ? pg : getPage());  
+	var data = localStorage.getItem(page);	
+	if(data != null && data != ''){			
+		var ar = data.split('@@@@@');
+		if(ar != null){
+			for(var i = 0; i < ar.length; i++){
+				if(ar[i] != ''){
+					var note = ar[i].split('|||||');
+					if(note != null && note.length == 3){
+						//console.log(ar[i]);
+						addNoteDiv(note[2],note[0],note[1]);
+					}				
+				}
+			}
+		}
+	}
+}
+
+function resetNotes(){
+	$('#note').html('');
 }
 
 function loadPages(){
@@ -240,6 +284,7 @@ function saveCanvas(){
 		alert('Local Storage not supported.');
 	}
 	//console.log('saveCanvas = ' + page);
+	saveNotes();
 }
 function loadCanvas(pg) {		
 	var page = "page" + ((pg != null) ? pg : getPage());  
@@ -253,6 +298,8 @@ function loadCanvas(pg) {
 		};
 		imageObj.src = data;
 	}
+	//
+	loadNotes(pg);
 }
 function prepareSize() {		
 	var oW = 0;
