@@ -52,7 +52,7 @@
 		border: 1px solid #000;
 		margin: 2px;
 	}
-	.bGroup { position: absolute; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
+	.bGroup { position: absolute; width: 40px; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
 		/* float: left; */
 		cursor: pointer;
@@ -168,7 +168,7 @@ $(window).resize(function(){
 
 function addNote(){
 	var msg = prompt("加入註記", "");
-	if(msg != ""){
+	if(msg != null && msg != ""){
 		addNoteDiv(msg);
 	}
 }
