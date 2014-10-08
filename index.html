@@ -141,7 +141,7 @@
 <body>
 
 <div id="bookDiv">
-	<img id="page" src="pages/1.png">
+	<img id="page" src="pages/0.png">
 	<canvas id="canvas"></canvas>	
 	<div class="btnOne bTrash" title="垃圾桶 - 文字註記可以拖進來丟"></div>
 	<div id="note"></div>
@@ -186,6 +186,9 @@ function addNote(){
 function addNoteDiv(s,l,t){
 	var l = l || Math.floor(window.nW / 2);
 	var t = t || Math.floor(window.nH / 2);
+	//fix pos
+	l = l > window.nW ? Math.floor(window.nW / 2) : l;
+	t = t > window.nH ? Math.floor(window.nH / 2) : t;
 	$('<div class="nt">' + s + '</div>').appendTo('#note').draggable({
 		drag: function(event, ui) {			
 			if(window.nH < $(this).height()){
@@ -222,12 +225,16 @@ function addNoteDiv(s,l,t){
 				if (ui.position.left > window.nW - $(this).width()) {
 					ui.position.left = window.nW - $(this).width();
 				} 
-			}						
+			}				
+		},
+		stop : function(event, ui){
+			saveNotes();
 		},
 		scroll: false,
 		cursor: 'move'		
 	}).offset({ top: t, left: l }).css({'max-width':Math.floor(window.nW / 3) + 'px','max-height':Math.floor(window.nH / 3) + 'px'});
 	//console.log('top: '+t+', left: '+l);
+	saveNotes();
 }
 
 function saveNotes(){
@@ -247,6 +254,8 @@ function saveNotes(){
 }
 
 function loadNotes(pg){
+	resetNotes();
+	
 	var page = "note" + ((pg != null) ? pg : getPage());  
 	var data = localStorage.getItem(page);	
 	if(data != null && data != ''){			
@@ -284,7 +293,7 @@ function saveCanvas(){
 		alert('Local Storage not supported.');
 	}
 	//console.log('saveCanvas = ' + page);
-	saveNotes();
+	//saveNotes();
 }
 function loadCanvas(pg) {		
 	var page = "page" + ((pg != null) ? pg : getPage());  
@@ -495,6 +504,7 @@ function loadApp(){
       drop: function(event, ui) {
 		//console.log(ui.draggable);
         ui.draggable.remove();
+		saveNotes();
       }
     });
 }

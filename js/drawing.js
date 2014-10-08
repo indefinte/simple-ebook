@@ -251,7 +251,7 @@ function clearPoints(){
 function resetCanvas(){
 	clearPoints();
 	clearCanvas();
-	//
+	//resetNotes
 	resetNotes();
 }
 /**
