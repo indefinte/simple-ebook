@@ -40,14 +40,16 @@
 		-webkit-border-radius: 5px;
 		-moz-border-radius: 5px;
 		border-radius: 5px; 
-		color: rgb(255,255,255); 
-		background-color: rgba(51,102,255,.5);
+		border: 1px solid rgb(255,153,204);
+		color: rgb(153,0,102);			
+		background-color: rgba(255,153,204,.5);
 		word-wrap: break-word;
 		word-break: normal;
 		overflow: auto;
 	}
+	.np { position: relative; text-align: right; width: 52px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
 	
-	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width 1s; transition: width 1s; }
+	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
 	.pGroup img {
 		cursor: pointer;
 		width: 60px;
@@ -55,9 +57,9 @@
 		border: 1px solid #000;
 		margin: 2px;
 	}
+	
 	.bGroup { position: absolute; width: 40px; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
-		/* float: left; */
 		cursor: pointer;
 		border: 1px solid #5252FF;		
 		width: 32px;
@@ -94,7 +96,7 @@
 	}
 	.bExt { display: none; }
 	
-	.bTrash.clk { background-color: #FF0000; }
+	.bTrash.clk { background-color: #FF7A7A; }
 	.bPage.clk { background-color: #E0E0E0; }
 	.bZoom.clk { background-color: #CAFF7A; background-image: url(images/zoomout.png); }
 	.bTool.clk { background-color: #CCE6FF; }
@@ -189,7 +191,8 @@ function addNoteDiv(s,l,t){
 	//fix pos
 	l = l > window.nW ? Math.floor(window.nW / 2) : l;
 	t = t > window.nH ? Math.floor(window.nH / 2) : t;
-	$('<div class="nt">' + s + '</div>').appendTo('#note').draggable({
+	
+	var o = $('<div class="nt">' + s + '</div>').appendTo('#note').draggable({
 		drag: function(event, ui) {			
 			if(window.nH < $(this).height()){
 				//可視範圍 < 文件範圍
@@ -225,7 +228,7 @@ function addNoteDiv(s,l,t){
 				if (ui.position.left > window.nW - $(this).width()) {
 					ui.position.left = window.nW - $(this).width();
 				} 
-			}				
+			}			
 		},
 		stop : function(event, ui){
 			saveNotes();
@@ -233,7 +236,15 @@ function addNoteDiv(s,l,t){
 		scroll: false,
 		cursor: 'move'		
 	}).offset({ top: t, left: l }).css({'max-width':Math.floor(window.nW / 3) + 'px','max-height':Math.floor(window.nH / 3) + 'px'});
-	//console.log('top: '+t+', left: '+l);
+	//console.log(o);
+	//pos fix ext
+	if (o.offset().top > window.nH - o.height()) {
+		o.offset({ top: window.nH - o.height()});
+	}
+	if (o.offset().left > window.nW - o.width()) {
+		o.offset({ left: window.nW - o.width()});
+	}
+	
 	saveNotes();
 }
 
@@ -278,9 +289,9 @@ function resetNotes(){
 	$('#note').html('');
 }
 
-function loadPages(){
+function loadPages(){	
 	for(var i = 0; i <= window.allPages; i++){
-		$('<img src="pages/' + i + '.png" alt="' + i + '">').appendTo('.pGroup');
+		$('<img src="pages/' + i + '.png" alt="' + i + '">').appendTo('.pGroup').after('<div class="np">' + (i+1) + '</div>');
 	}
 }
 
@@ -340,7 +351,7 @@ function prepareCanvasSize(){
 	drawingAreaX = 0;
 	drawingAreaY = 55;
 	drawingAreaWidth = window.dW * window.zoom;
-	drawingAreaHeight = window.dH * window.zoom - 55;
+	drawingAreaHeight = window.dH * window.zoom - 55;		
 }
 function getPage(){
 	var np = $('#page').attr('src');
