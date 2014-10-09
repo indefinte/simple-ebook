@@ -47,7 +47,7 @@
 		word-break: normal;
 		overflow: auto;
 	}
-	.np { position: relative; text-align: right; width: 52px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
+	.np { cursor: pointer; position: relative; text-align: right; width: 52px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
 	
 	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
 	.pGroup img {
@@ -235,7 +235,7 @@ function addNoteDiv(s,l,t){
 		},
 		scroll: false,
 		cursor: 'move'		
-	}).offset({ top: t, left: l }).css({'max-width':Math.floor(window.nW / 3) + 'px','max-height':Math.floor(window.nH / 3) + 'px'});
+	}).offset({ top: t, left: l }).css({'min-width':Math.floor(window.nW / 6) + 'px','max-width':Math.floor(window.nW / 3) + 'px','max-height':Math.floor(window.nH / 3) + 'px'});
 	//console.log(o);
 	//pos fix ext
 	if (o.offset().top > window.nH - o.height()) {
@@ -291,7 +291,7 @@ function resetNotes(){
 
 function loadPages(){	
 	for(var i = 0; i <= window.allPages; i++){
-		$('<img src="pages/' + i + '.png" alt="' + i + '">').appendTo('.pGroup').after('<div class="np">' + (i+1) + '</div>');
+		$('<img src="thumb/' + i + '.png" alt="' + i + '">').appendTo('.pGroup').after('<div class="np" alt="' + i + '">' + (i+1) + '</div>');
 	}
 }
 
@@ -406,7 +406,7 @@ function goPage(dir){
 
 function btnPageEvent(e){			
 	var target = $(e.target);
-	if (target.is('img')){
+	if (target.is('img')||target.attr('class') == 'np'){
 		var pg = target.attr('alt') || 0;
 		setPage(pg);
 	}	
@@ -416,10 +416,10 @@ function btnOneEvent(){
 		case $(this).hasClass('bPage'):
 			if($(this).hasClass('clk')){
 				$(this).removeClass('clk');	
-				$('.pGroup').width(0);
+				$('.pGroup').width(0);				
 			}else{	
 				$(this).addClass('clk');					
-				$('.pGroup').width(80);
+				$('.pGroup').width(80);				
 			}								
 		break;
 	}		
