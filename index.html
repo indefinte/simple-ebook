@@ -168,28 +168,25 @@
 
 
 <script type="text/javascript">
-window.isResize = true;
 window.allPages = 26;
 window.zoom = 1;
 
 document.onselectstart = new function(){ return false; }
 
-$(window).resize(function(){
-	//console.log('resize');
-	if(window.isResize){
-		location.reload();
-		var pg = localStorage.getItem('page') || 0;
-		setPage(pg);
-	}
-});
+//翻轉事件
+window.addEventListener('orientationchange', reloadPage);
+$(window).resize(function(){ if(!Modernizr.touch){ reloadPage(); } });
 
+function reloadPage(){
+	location.reload();
+	var pg = localStorage.getItem('page') || 0;
+	setPage(pg);
+}
 function addNote(){
-	window.isResize = false;
 	jPrompt('', '', '加入註記', function(m) {
 		if(m){
 			addNoteDiv(m);
 		};
-		window.isResize = true;
 	});	
 }
 function addNoteDiv(s,l,t){
