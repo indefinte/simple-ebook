@@ -9,8 +9,9 @@
 <script type="text/javascript" src="js/extras/jquery.ui.droppable.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript" src="js/extras/jgestures.min.js"></script>
+<script type="text/javascript" src="js/extras/jquery.alerts.js"></script>
 <script type="text/javascript" src="js/extras/modernizr.2.8.3.min.js"></script>
-
+<link type="text/css" href="css/jquery.alerts.css" rel="stylesheet" media="screen" />
 <style>
 	body { 
 		margin: 0; 
@@ -49,7 +50,7 @@
 	}
 	.np { cursor: pointer; position: relative; text-align: right; width: 52px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
 	
-	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 40px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
+	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 70px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
 	.pGroup img {
 		cursor: pointer;
 		width: 60px;
@@ -180,13 +181,11 @@ $(window).resize(function(){
 });
 
 function addNote(){
-	/*
-	var msg = prompt("加入註記", "");
-	if(msg != null && msg != ""){
-		addNoteDiv(msg);
-	}
-	*/
-	addNoteDiv("訊息測試訊息測試訊息測試訊息測試訊息測試");
+	jPrompt('', '', '加入註記', function(m) {
+		if(m){
+			addNoteDiv(m);
+		};
+	});	
 }
 function addNoteDiv(s,l,t){
 	var l = l || Math.floor(window.nW / 2);
