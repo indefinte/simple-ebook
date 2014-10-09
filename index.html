@@ -172,7 +172,7 @@ window.allPages = 26;
 window.zoom = 1;
 
 document.onselectstart = new function(){ return false; }
-
+document.ontouchmove = function(e) { e.preventDefault(); };
 //翻轉事件
 window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
@@ -527,10 +527,17 @@ function loadApp(){
 	prepareSize();
 	prepareCanvas();
 
-	$('.btn').on('click swipeone', btnEvent);
-	$('.btnArr').on('click swipeone', btnArrEvent);	
-	$('.btnOne').on('click swipeone', btnOneEvent);	
-	$('.pGroup').on('click swipeone', btnPageEvent);		
+	if(!Modernizr.touch){
+		$('.btn').on('click', btnEvent);
+		$('.btnArr').on('click', btnArrEvent);	
+		$('.btnOne').on('click', btnOneEvent);	
+		$('.pGroup').on('click', btnPageEvent);	
+	}else{
+		$('.btn').on('swipeone', btnEvent);
+		$('.btnArr').on('swipeone', btnArrEvent);	
+		$('.btnOne').on('swipeone', btnOneEvent);	
+		$('.pGroup').on('swipeone', btnPageEvent);	
+	}	
 	
 	startZoom(1);
 	loadCanvas();	
