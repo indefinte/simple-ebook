@@ -175,7 +175,7 @@ document.onselectstart = new function(){ return false; }
 
 //翻轉事件
 window.addEventListener('orientationchange', reloadPage);
-$(window).resize(function(){ if(!Modernizr.touch){ reloadPage(); } });
+if(!Modernizr.touch){ $(window).resize(reloadPage); }
 
 function reloadPage(){
 	location.reload();
