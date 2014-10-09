@@ -75,10 +75,10 @@
 		position: fixed;
 		cursor: pointer;
 		border: 0;		
-		width: 32px;
-		height: 32px;
+		width: 64px;
+		height: 64px;
 		text-align: center;
-		line-height: 32px;
+		line-height: 64px;
 		z-index: 999;
 	}
 	.btnOne {
@@ -111,8 +111,8 @@
 	.bGreen { color: #003870; background-color: #8BD864; }
 	.bYellow { color: #003870; background-color: #FFFF3D; }
 	.bBrown { color: #003870; background-color: #A35200; }
-	.bLeft{ left: 0; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/arrL.png); -webkit-border-top-right-radius: 16px; -moz-border-radius-topright: 16px; border-top-right-radius: 16px;  }
-	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 16px; -moz-border-radius-topleft: 16px; border-top-left-radius: 16px; }
+	.bLeft{ left: 0; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/arrL.png); -webkit-border-top-right-radius: 32px; -moz-border-radius-topright: 32px; border-top-right-radius: 32px;  }
+	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 32px; -moz-border-radius-topleft: 32px; border-top-left-radius: 32px; }
 	.bPage{ left: 2px; top: 22px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
 	.bTrash{ 
 		left: 45%; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/trash.png); background-color: #FFF; z-index: 105; 
@@ -180,10 +180,13 @@ $(window).resize(function(){
 });
 
 function addNote(){
+	/*
 	var msg = prompt("加入註記", "");
 	if(msg != null && msg != ""){
 		addNoteDiv(msg);
 	}
+	*/
+	addNoteDiv("訊息測試訊息測試訊息測試訊息測試訊息測試");
 }
 function addNoteDiv(s,l,t){
 	var l = l || Math.floor(window.nW / 2);
