@@ -364,10 +364,36 @@ function getPage(){
 function setPage(pg){
 	saveCanvas();
 	resetCanvas();
-	$('#page').attr('src','pages/'+pg+'.png');
-	loadCanvas(pg);
-	if (typeof (localStorage) !== "undefined") {
-		localStorage.setItem('page', pg);
+	
+	var pre = getPage();
+	
+	if(pg > pre){
+		$('#page').fadeOut(function(){
+			$('#page')[0].onload = function(){
+				$('#page').show().removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					$(this).removeClass();
+					loadCanvas(pg);
+				});
+				if (typeof (localStorage) !== "undefined") {
+					localStorage.setItem('page', pg);
+				}
+			}
+			$('#page').attr('src','pages/'+pg+'.png')
+		});
+		
+	}else{
+		$('#page').fadeOut(function(){
+			$('#page')[0].onload = function(){
+				$('#page').show().removeClass().addClass('fadeInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					$(this).removeClass();
+					loadCanvas(pg);
+				});
+				if (typeof (localStorage) !== "undefined") {
+					localStorage.setItem('page', pg);
+				}
+			}
+			$('#page').attr('src','pages/'+pg+'.png')
+		});		
 	}	
 }
 function goPage(dir){
