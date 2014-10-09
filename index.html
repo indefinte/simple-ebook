@@ -171,8 +171,8 @@
 window.allPages = 26;
 window.zoom = 1;
 
-document.onselectstart = new function(){ return false; }
-document.ontouchmove = function(e) { e.preventDefault(); };
+document.onselectstart = function(e){ e.preventDefault(); }
+//document.ontouchmove = function(e) { e.preventDefault(); };
 //翻轉事件
 window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
@@ -517,13 +517,7 @@ function btnEvent(){
 		break;			
 	}		
 }
-function loadApp(){
-	var pg = 0;
-	if(typeof (localStorage) !== "undefined") {
-		pg = localStorage.getItem('page') || 0;	
-		localStorage.setItem('page', pg);		
-	}
-
+function loadApp(){	
 	prepareSize();
 	prepareCanvas();
 
@@ -538,11 +532,8 @@ function loadApp(){
 	$('.pGroup').on('swipeone', btnPageEvent);		
 	*/
 	startZoom(1);
-	loadCanvas();	
-	
+	loadCanvas();		
 	loadPages();
-	
-	setPage(pg);
 	
 	//Trash
 	$('.bTrash').droppable({
@@ -555,6 +546,14 @@ function loadApp(){
 		saveNotes();
       }
     });
+	
+	var pg = 0;
+	if(typeof (localStorage) !== "undefined") {
+		pg = localStorage.getItem('page') || 0;			
+	}		
+	if(pg > 0){
+		setPage(pg);
+	}
 }
 
 yepnope({
