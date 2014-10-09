@@ -179,8 +179,6 @@ if(!Modernizr.touch){ $(window).resize(reloadPage); }
 
 function reloadPage(){
 	location.reload();
-	var pg = localStorage.getItem('page') || 0;
-	setPage(pg);
 }
 function addNote(){
 	jPrompt('', '', '加入註記', function(m) {
@@ -494,8 +492,10 @@ function btnEvent(){
 	}		
 }
 function loadApp(){
-	if (typeof (localStorage) !== "undefined") {
-		localStorage.setItem('page', '0');
+	var pg = 0;
+	if(typeof (localStorage) !== "undefined") {
+		pg = localStorage.getItem('page') || 0;	
+		localStorage.setItem('page', pg);		
 	}
 
 	prepareSize();
@@ -510,6 +510,8 @@ function loadApp(){
 	loadCanvas();	
 	
 	loadPages();
+	
+	setPage(pg);
 	
 	//Trash
 	$('.bTrash').droppable({
