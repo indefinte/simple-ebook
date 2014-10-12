@@ -387,6 +387,10 @@ function setPage(pg){
 				if (typeof (localStorage) !== "undefined") {
 					localStorage.setItem('page', pg);
 				}
+				//test audio
+				if(pg >= 1 && pg <= 3){
+					playAudio(pg);
+				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
 		});
@@ -400,6 +404,10 @@ function setPage(pg){
 				});
 				if (typeof (localStorage) !== "undefined") {
 					localStorage.setItem('page', pg);
+				}
+				//test audio
+				if(pg >= 1 && pg <= 3){
+					playAudio(pg);
 				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
@@ -421,6 +429,10 @@ function goPage(dir){
 				if (typeof (localStorage) !== "undefined") {
 					localStorage.setItem('page', pg);
 				}
+				//test audio
+				if(pg >= 1 && pg <= 3){
+					playAudio(pg);
+				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
 		});
@@ -436,14 +448,15 @@ function goPage(dir){
 				if (typeof (localStorage) !== "undefined") {
 					localStorage.setItem('page', pg);
 				}
+				//test audio
+				if(pg >= 1 && pg <= 3){
+					playAudio(pg);
+				}
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
 		});		
 	}
-	//test audio
-	if(pg >= 1 && pg <= 3){
-		playAudio(pg);
-	}
+	
 }
 
 function btnPageEvent(e){			
