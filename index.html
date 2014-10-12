@@ -166,16 +166,26 @@
 <div class="btnOne bPage" title="頁籤"></div>
 <div class="pGroup"></div>
 
+<audio id="ado"></audio>
 
 <script type="text/javascript">
 window.allPages = 26;
 window.zoom = 1;
 
 document.onselectstart = function(e){ e.preventDefault(); }
-//document.ontouchmove = function(e) { e.preventDefault(); };
 //翻轉事件
 window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
+
+function pauseAudio(){
+	$('#ado')[0].pause();
+}
+function playAudio(i){
+	pauseAudio();
+	i = i || 1;
+	$('#ado')[0].src = 'audio/' + i + '.wav';
+	$('#ado')[0].play();		 	
+}
 
 function reloadPage(){
 	location.reload();
@@ -298,7 +308,7 @@ function loadPages(){
 }
 
 function saveCanvas(){	
-	var page = "page" + getPage();
+	var page = 'page' + getPage();
 	var data = $('#canvas')[0].toDataURL();
 	if (typeof (localStorage) !== "undefined") {
 		localStorage.setItem(page, data);
@@ -309,8 +319,8 @@ function saveCanvas(){
 	//saveNotes();
 }
 function loadCanvas(pg) {		
-	var page = "page" + ((pg != null) ? pg : getPage());  
-	var context = $('#canvas')[0].getContext('2d');
+	var page = 'page' + ((pg != null) ? pg : getPage());  
+	context = $('#canvas')[0].getContext('2d');
 	
 	var data = localStorage.getItem(page);
 	if(data != null){			
@@ -402,7 +412,7 @@ function goPage(dir){
 	var np = getPage();
 	if(dir > 0){
 		var pg = (np < window.allPages) ? np + 1 : 0;
-		$('#page').fadeOut(function(){
+		$('#page').hide(function(){
 			$('#page')[0].onload = function(){
 				$('#page').show().removeClass().addClass('fadeInRight animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 					$(this).removeClass();
@@ -417,7 +427,7 @@ function goPage(dir){
 		
 	}else{
 		var pg = (np > 0) ? np - 1 : window.allPages;
-		$('#page').fadeOut(function(){
+		$('#page').hide(function(){
 			$('#page')[0].onload = function(){
 				$('#page').show().removeClass().addClass('fadeInLeft animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 					$(this).removeClass();
@@ -429,6 +439,10 @@ function goPage(dir){
 			}
 			$('#page').attr('src','pages/'+pg+'.png')
 		});		
+	}
+	//test audio
+	if(pg >= 1 && pg <= 3){
+		playAudio(pg);
 	}
 }
 
@@ -486,7 +500,7 @@ function btnEvent(){
 				$('.bExt').fadeOut();
 				stopDraw();	
 				saveCanvas();					
-				startZoom(window.zoom);
+				startZoom(window.zoom, 0);
 			}else{	
 				$(this).addClass('clk');						
 				$('.bExt').fadeIn();

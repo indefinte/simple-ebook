@@ -130,10 +130,11 @@ function stopDraw(){
 	}
 }
 
-function startZoom(zoom){
+function startZoom(zoom, resize){
 	//console.log('startZoom');	
 	
 	window.zoom = zoom || 1;
+	resize = resize || 1;
 	
 	stopDraw();
 
@@ -200,7 +201,9 @@ function startZoom(zoom){
 		//console.log('zoomOut');
 	}
 	//reload with resize 
-	loadCanvas();
+	if(resize == 1){
+		loadCanvas();
+	}
 }
 
 function stopZoom(zoom){
