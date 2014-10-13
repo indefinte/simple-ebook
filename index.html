@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="js/extras/jquery.min.1.7.js"></script>
 <script type="text/javascript" src="js/extras/jquery-ui-1.8.20.custom.min.js"></script>
 <script type="text/javascript" src="js/extras/jquery.ui.draggable.min.js"></script>
@@ -178,13 +179,18 @@ window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
 
 function pauseAudio(){
-	$('#ado')[0].pause();
+	//$('#ado')[0].pause();
 }
 function playAudio(i){
-	pauseAudio();
-	i = i || 1;
-	$('#ado')[0].src = 'audio/' + i + '.wav';
-	$('#ado')[0].play();		 	
+	//pauseAudio();
+	//i = i || 1;
+	//$('#ado')[0].src = 'audio/' + i + '.wav';
+	//$('#ado')[0].play();		 	
+	var sMedia = new Media('/android_asset/www/audio/' + i + '.wav',
+							function(){ alert("Audio Success"); },
+							function(err){ alert('Audio Error: '+ err); }
+						);
+	sMedia.play();
 }
 
 function reloadPage(){
