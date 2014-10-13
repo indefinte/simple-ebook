@@ -186,11 +186,15 @@ function playAudio(i){
 	//i = i || 1;
 	//$('#ado')[0].src = 'audio/' + i + '.wav';
 	//$('#ado')[0].play();		 	
+	var sMedia = new Media('/android_asset/www/audio/' + i + '.wav');
+	sMedia.play();
+	
+	/*
 	var sMedia = new Media('/android_asset/www/audio/' + i + '.wav',
 							function(){ alert("Audio Success"); },
 							function(err){ alert('Audio Error: '+ err); }
 						);
-	sMedia.play();
+	*/
 }
 
 function reloadPage(){
