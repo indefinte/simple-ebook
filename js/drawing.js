@@ -266,7 +266,7 @@ function redraw()
 	//var locY;
 	
 	// Keep the drawing in the drawing area
-	//context.save();
+	context.save();
 	/*
 	context.beginPath();
 	context.rect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
@@ -304,7 +304,7 @@ function redraw()
 		
 	}	
 	
-	//context.restore();
+	context.restore();
 	context.globalAlpha = 1; // No IE support
 
 }
