@@ -262,11 +262,11 @@ function resetCanvas(){
 */
 function redraw()
 {
-	var locX;
-	var locY;
+	//var locX;
+	//var locY;
 	
 	// Keep the drawing in the drawing area
-	context.save();
+	//context.save();
 	/*
 	context.beginPath();
 	context.rect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
