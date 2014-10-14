@@ -288,17 +288,17 @@ function redraw()
 		context.lineTo(clickX[i], clickY[i]);
 		context.closePath();
 		
-		if(clickTool[i] == "eraser"){								
-			context.globalCompositeOperation = "destination-out"; // To erase instead of draw over with white
-			context.fillStyle = "rgba(0,0,0,1)";
-			context.strokeStyle = "rgba(0,0,0,1)";	
+		if(clickTool[i] == 'eraser'){								
+			context.globalCompositeOperation = 'destination-out'; // To erase instead of draw over with white
+			context.fillStyle = 'rgba(0,0,0,1)';
+			context.strokeStyle = 'rgba(0,0,0,1)';	
 			radius = 20;
 		}else{
-			context.globalCompositeOperation = "source-over";	// To erase instead of draw over with white
+			context.globalCompositeOperation = 'source-over';	// To erase instead of draw over with white
 			context.strokeStyle = clickColor[i];
 			radius = 5;
 		}
-		context.lineJoin = "round";
+		context.lineJoin = 'round';
 		context.lineWidth = radius * window.zoom;
 		context.stroke();
 		
