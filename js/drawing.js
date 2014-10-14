@@ -61,7 +61,7 @@ function startDraw(){
 	canvasWidth = window.dW * window.zoom;
 	canvasHeight = window.dH * window.zoom;
 	drawingAreaWidth = window.dW * window.zoom;
-	drawingAreaHeight = (window.dH * window.zoom) - 55;
+	drawingAreaHeight = (window.dH * window.zoom);// - 55;
 	
 	if(Modernizr.touch){
 		// Add touch events	
@@ -267,10 +267,11 @@ function redraw()
 	
 	// Keep the drawing in the drawing area
 	context.save();
+	/*
 	context.beginPath();
 	context.rect(drawingAreaX, drawingAreaY, drawingAreaWidth, drawingAreaHeight);
 	context.clip();
-	
+	*/
 	var radius = 1;
 	var i = 0;
 	
