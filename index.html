@@ -17,11 +17,11 @@
 	body { 
 		margin: 0; 
 		padding: 0; 	
-		-webkit-user-select: none; //disables selection
-        -webkit-tap-highlight-color: rgba(0,0,0,0); // disables the actual highlight
-        -webkit-touch-callout: none;  //disables the download and save popup
 	}
-	
+	-webkit-user-select: none; //disables selection
+	-webkit-tap-highlight-color: rgba(0,0,0,0); // disables the actual highlight
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;  //disables the download and save popup
 	::-webkit-scrollbar { width: 5px; height: 5px; background: url(images/blank.gif); }
 	::-webkit-scrollbar-thumb:horizontal { background: rgba(0, 0, 0, 0.2); border-style: solid; border-width: 1px; border-color: rgba(255, 255, 255, 0.25); border-radius: 2px; }
 	::-webkit-scrollbar-thumb:horizontal:hover { background: rgb(0, 0, 0); border-style: solid; border-width: 1px; border-color: rgb(255, 255, 255); border-radius: 2px; box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.4); }
@@ -179,22 +179,20 @@ window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
 
 function pauseAudio(){
-	//$('#ado')[0].pause();
+	if (typeof Media === 'undefined') {	
+		$('#ado')[0].pause();
+	}
 }
-function playAudio(i){
-	//pauseAudio();
-	//i = i || 1;
-	//$('#ado')[0].src = 'audio/' + i + '.wav';
-	//$('#ado')[0].play();		 	
-	var sMedia = new Media('/android_asset/www/audio/' + i + '.wav');
-	sMedia.play();
-	
-	/*
-	var sMedia = new Media('/android_asset/www/audio/' + i + '.wav',
-							function(){ alert("Audio Success"); },
-							function(err){ alert('Audio Error: '+ err); }
-						);
-	*/
+function playAudio(i){	
+	if (typeof Media === 'undefined') {	
+		pauseAudio();
+		i = i || 1;
+		$('#ado')[0].src = 'audio/' + i + '.wav';
+		$('#ado')[0].play();
+	}else{
+		var sMedia = new Media('/android_asset/www/audio/' + i + '.wav');
+		sMedia.play();
+	}	
 }
 
 function reloadPage(){
