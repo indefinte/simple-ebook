@@ -52,12 +52,12 @@
 		word-break: normal;
 		overflow: auto;
 	}
-	.np { cursor: pointer; position: relative; text-align: right; width: 52px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
+	.np { cursor: pointer; position: relative; text-align: right; width: 132px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
 	
-	.pGroup { position: absolute; width: 0; left: 0; top: 60px; bottom: 70px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
+	.pGroup { position: absolute; width: 0; left: 0; top: 80px; bottom: 70px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
 	.pGroup img {
 		cursor: pointer;
-		width: 60px;
+		width: 140px;
 		height: auto;
 		border: 1px solid #000;
 		margin: 2px;
@@ -118,7 +118,7 @@
 	.bBrown { color: #003870; background-color: #A35200; }
 	.bLeft{ left: 0; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/arrL.png); -webkit-border-top-right-radius: 32px; -moz-border-radius-topright: 32px; border-top-right-radius: 32px;  }
 	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 32px; -moz-border-radius-topleft: 32px; border-top-left-radius: 32px; }
-	.bPage{ left: 2px; top: 22px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
+	.bPage{ left: 2px; top: 42px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
 	.bTrash{ 
 		left: 45%; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/trash.png); background-color: #FFF; z-index: 105; 
 		width: 64px;
@@ -148,7 +148,7 @@
 <body>
 
 <div id="bookDiv">
-	<img id="page" src="pages/0.png">
+	<img id="page" src="pages/0.jpg">
 	<canvas id="canvas"></canvas>	
 	<div class="btnOne bTrash" title="垃圾桶 - 文字註記可以拖進來丟"></div>
 	<div id="note"></div>
@@ -173,7 +173,7 @@
 <audio id="ado"></audio>
 
 <script type="text/javascript">
-window.allPages = 26;
+window.allPages = 46;
 window.zoom = 1;
 
 document.onselectstart = function(e){ e.preventDefault(); }
@@ -379,7 +379,7 @@ function prepareCanvasSize(){
 function getPage(){
 	var np = $('#page').attr('src');
 	np = np.substring(6, np.length);
-	np = np.substring(0, np.search('.png'));
+	np = np.substring(0, np.search('.jpg'));
 	return parseInt(np);
 }
 function setPage(pg){
@@ -403,7 +403,7 @@ function setPage(pg){
 					playAudio(pg);
 				}
 			}
-			$('#page').attr('src','pages/'+pg+'.png')
+			$('#page').attr('src','pages/'+pg+'.jpg')
 		});
 		
 	}else{
@@ -421,7 +421,7 @@ function setPage(pg){
 					playAudio(pg);
 				}
 			}
-			$('#page').attr('src','pages/'+pg+'.png')
+			$('#page').attr('src','pages/'+pg+'.jpg')
 		});		
 	}	
 }
@@ -445,7 +445,7 @@ function goPage(dir){
 					playAudio(pg);
 				}
 			}
-			$('#page').attr('src','pages/'+pg+'.png')
+			$('#page').attr('src','pages/'+pg+'.jpg')
 		});
 		
 	}else{
@@ -464,7 +464,7 @@ function goPage(dir){
 					playAudio(pg);
 				}
 			}
-			$('#page').attr('src','pages/'+pg+'.png')
+			$('#page').attr('src','pages/'+pg+'.jpg')
 		});		
 	}
 	
@@ -485,7 +485,7 @@ function btnOneEvent(){
 				$('.pGroup').width(0);				
 			}else{	
 				$(this).addClass('clk');					
-				$('.pGroup').width(80);				
+				$('.pGroup').width(160);				
 			}								
 		break;
 	}		
