@@ -16,12 +16,15 @@
     <author href="https://build.phonegap.com" email="shady.tw@gmail.com">
         Tsai Toan-En
     </author>
-
+	
+	<icon src="icon.png" />
+	
+	<gap:plugin name="org.apache.cordova.media" />
+	
 	<gap:platform name="ios" />
 	<gap:platform name="android" />	
 	
 	<preference name="orientation" value="landscape" />
-	<preference name="fullscreen" value="true" />
+	<preference name="fullscreen" value="true" />	
 	
-	<gap:plugin name="org.apache.cordova.media" />
 </widget>
