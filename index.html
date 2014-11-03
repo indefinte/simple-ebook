@@ -114,6 +114,8 @@
 	.bClear { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/clear.png); }		
 	.bEraser { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/eraser.png); }		
 	
+	.bAudio { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/audio.png); }		
+	
 	.bPurple { color: #003870; background-color: #B8008A; }
 	.bGreen { color: #003870; background-color: #8BD864; }
 	.bYellow { color: #003870; background-color: #FFFF3D; }
@@ -135,6 +137,8 @@
 	.bTool:active { background-color: #CCE6FF; }
 	.bClear:active { background-color: #FFFFFF; }
 	.bEraser:active { background-color: #FFFFFF; }
+	
+	.bAudio:active { background-color: #FFFFFF; }
 	
 	.bPurple:active { background-color: #FF5CAD; }
 	.bGreen:active { background-color: #AFE495; }
@@ -168,6 +172,10 @@
 </div>
 <div class="btnArr bLeft" title="上一頁"></div>
 <div class="btnArr bRight" title="下一頁"></div>
+
+<div class="btnOne bAudio" rel="1" style="bottom: 10px; right: 100px;" title="聆聽 demo1"></div>
+<div class="btnOne bAudio" rel="2" style="bottom: 10px; right: 140px;" title="聆聽 demo2"></div>
+<div class="btnOne bAudio" rel="3" style="bottom: 10px; right: 180px;" title="聆聽 demo3"></div>
 
 <div class="btnOne bPage" title="頁籤"></div>
 <div class="pGroup"></div>
@@ -401,9 +409,9 @@ function setPage(pg){
 					localStorage.setItem('page', pg);
 				}
 				//test audio
-				if(pg >= 1 && pg <= 3){
-					playAudio(pg);
-				}
+				//if(pg >= 1 && pg <= 3){
+				//	playAudio(pg);
+				//}
 			}
 			$('#page').attr('src','pages/'+pg+'.jpg')
 		});
@@ -489,6 +497,9 @@ function btnOneEvent(){
 				$(this).addClass('clk');					
 				$('.pGroup').width(160);				
 			}								
+		break;
+		case $(this).hasClass('bAudio'):
+			playAudio($(this).attr('rel'));
 		break;
 	}		
 }
