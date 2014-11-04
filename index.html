@@ -210,11 +210,10 @@ function playAudio(i){
 		//alert('audio mode 2');
 		try{
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-				var rootdir = fs.root;
-				var fp = rootdir.fullPath;
-				alert('file://'+ fp + '/');              				
-				var sMedia = new Media('file://'+ fp + '/asset/www/audio/' + i + '.wav');
-				sMedia.play();
+				//var rootdir = fs.root;
+				//var fp = rootdir.fullPath;				            				
+				var sMedia = new Media('file:///audio/' + i + '.wav');
+				sMedia.play();				
 			});
 		}catch(e){
 		  alert('audio event = ' + e);
