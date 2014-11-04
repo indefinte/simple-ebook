@@ -194,13 +194,25 @@ document.onselectstart = function(e){ e.preventDefault(); }
 window.addEventListener('orientationchange', reloadPage);
 if(!Modernizr.touch){ $(window).resize(reloadPage); }
 
+function checkDeviceType(){
+	var deviceType = (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i))  == "iPhone" ? "iPhone" : (navigator.userAgent.match(/Android/i)) == "Android" ? "Android" : (navigator.userAgent.match(/BlackBerry/i)) == "BlackBerry" ? "BlackBerry" : "null";
+	return deviceType;
+}
 function pauseAudio(){
+	$('#ado')[0].pause();
+	/*
 	if (typeof Media === 'undefined') {	
 		$('#ado')[0].pause();
 	}
+	*/
 }
 function playAudio(i){	
-	if (typeof Media === 'undefined') {	
+	pauseAudio();
+	i = i || 1;
+	$('#ado')[0].src = './audio/' + i + '.wav';
+	$('#ado')[0].play();
+	/*
+	if(typeof Media === 'undefined') {	
 		//alert('audio mode 1');
 		pauseAudio();
 		i = i || 1;
@@ -208,18 +220,11 @@ function playAudio(i){
 		$('#ado')[0].play();
 	}else{
 		//alert('audio mode 2');
-		try{
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-				//var rootdir = fs.root;
-				//var fp = rootdir.fullPath;				            				
-				//var sMedia = new Media(getPhoneGapPath() + i + '.wav');
-				var sMedia = new Media(i + '.wav');
-				sMedia.play();				
-			});
-		}catch(e){
-		  alert('audio event = ' + e);
-		}
-	}	
+		var sMedia = new Media(getPhoneGapPath() + i + '.wav');
+		var sMedia = new Media(i + '.wav');
+		sMedia.play();		
+	}
+*/	
 }
 function getPhoneGapPath() {
     var path = window.location.pathname;
@@ -231,11 +236,17 @@ function reloadPage(){
 	location.reload();
 }
 function addNote(){
+	var m = prompt('加入註記','');
+	if (m != null) {
+		addNoteDiv(m);
+	}
+	/*
 	jPrompt('', '', '加入註記', function(m) {
 		if(m){
 			addNoteDiv(m);
 		};
 	});	
+	*/
 }
 function addNoteDiv(s,l,t){
 	var l = l || Math.floor(window.nW / 2);
