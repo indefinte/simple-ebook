@@ -201,15 +201,24 @@ function pauseAudio(){
 }
 function playAudio(i){	
 	if (typeof Media === 'undefined') {	
-		alert('audio mode 1');
+		//alert('audio mode 1');
 		pauseAudio();
 		i = i || 1;
 		$('#ado')[0].src = './audio/' + i + '.wav';
 		$('#ado')[0].play();
 	}else{
-		alert('audio mode 2');
-		var sMedia = new Media('/android_asset/www/audio/' + i + '.wav');
-		sMedia.play();
+		//alert('audio mode 2');
+		try{
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+				var rootdir = fs.root;
+				var fp = rootdir.fullPath;
+				alert('file://'+ fp + '/');              				
+				var sMedia = new Media('file://'+ fp + '/asset/www/audio/' + i + '.wav');
+				sMedia.play();
+			});
+		}catch(e){
+		  alert('audio event = ' + e);
+		}
 	}	
 }
 
