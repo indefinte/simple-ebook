@@ -65,6 +65,7 @@
 		margin: 2px;
 	}
 	
+	.aGroup { position: absolute; width: 30%; height: 40px; right: 100px; bottom: 10px; z-index: 999; overflow: auto; }	
 	.bGroup { position: absolute; width: 40px; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
 		cursor: pointer;
@@ -114,7 +115,7 @@
 	.bClear { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/clear.png); }		
 	.bEraser { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/eraser.png); }		
 	
-	.bAudio { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/audio.png); }		
+	.bAudio { float: right; margin-left: 10px; color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/audio.png); }		
 	
 	.bPurple { color: #003870; background-color: #B8008A; }
 	.bGreen { color: #003870; background-color: #8BD864; }
@@ -173,9 +174,11 @@
 <div class="btnArr bLeft" title="上一頁"></div>
 <div class="btnArr bRight" title="下一頁"></div>
 
-<div class="btnOne bAudio" rel="1" style="bottom: 10px; right: 100px;" title="聆聽 demo1"></div>
-<div class="btnOne bAudio" rel="2" style="bottom: 10px; right: 140px;" title="聆聽 demo2"></div>
-<div class="btnOne bAudio" rel="3" style="bottom: 10px; right: 180px;" title="聆聽 demo3"></div>
+<div class="aGroup">
+	<div class="btn bAudio" rel="1" title="聆聽 demo1"></div>
+	<div class="btn bAudio" rel="2" title="聆聽 demo2"></div>
+	<div class="btn bAudio" rel="3" title="聆聽 demo3"></div>
+</div>
 
 <div class="btnOne bPage" title="頁籤"></div>
 <div class="pGroup"></div>
@@ -198,11 +201,13 @@ function pauseAudio(){
 }
 function playAudio(i){	
 	if (typeof Media === 'undefined') {	
+		alert('audio mode 1');
 		pauseAudio();
 		i = i || 1;
-		$('#ado')[0].src = 'audio/' + i + '.wav';
+		$('#ado')[0].src = './audio/' + i + '.wav';
 		$('#ado')[0].play();
 	}else{
+		alert('audio mode 2');
 		var sMedia = new Media('/android_asset/www/audio/' + i + '.wav');
 		sMedia.play();
 	}	
@@ -426,10 +431,10 @@ function setPage(pg){
 				if (typeof (localStorage) !== "undefined") {
 					localStorage.setItem('page', pg);
 				}
-				//test audio
-				if(pg >= 1 && pg <= 3){
-					playAudio(pg);
-				}
+				//test audio				
+				//if(pg >= 1 && pg <= 3){
+				//	playAudio(pg);
+				//}
 			}
 			$('#page').attr('src','pages/'+pg+'.jpg')
 		});		
@@ -451,9 +456,9 @@ function goPage(dir){
 					localStorage.setItem('page', pg);
 				}
 				//test audio
-				if(pg >= 1 && pg <= 3){
-					playAudio(pg);
-				}
+				//if(pg >= 1 && pg <= 3){
+				//	playAudio(pg);
+				//}
 			}
 			$('#page').attr('src','pages/'+pg+'.jpg')
 		});
@@ -470,9 +475,9 @@ function goPage(dir){
 					localStorage.setItem('page', pg);
 				}
 				//test audio
-				if(pg >= 1 && pg <= 3){
-					playAudio(pg);
-				}
+				//if(pg >= 1 && pg <= 3){
+				//	playAudio(pg);
+				//}
 			}
 			$('#page').attr('src','pages/'+pg+'.jpg')
 		});		
@@ -498,9 +503,6 @@ function btnOneEvent(){
 				$('.pGroup').width(160);				
 			}								
 		break;
-		case $(this).hasClass('bAudio'):
-			playAudio($(this).attr('rel'));
-		break;
 	}		
 }
 function btnArrEvent(){			
@@ -514,7 +516,10 @@ function btnArrEvent(){
 	}		
 }		
 function btnEvent(){			
-	switch(true){		
+	switch(true){
+		case $(this).hasClass('bAudio'):
+			playAudio($(this).attr('rel'));
+		break;
 		case $(this).hasClass('bZoom'):	
 			saveCanvas();
 			resetCanvas();
