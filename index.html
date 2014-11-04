@@ -212,13 +212,19 @@ function playAudio(i){
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
 				//var rootdir = fs.root;
 				//var fp = rootdir.fullPath;				            				
-				var sMedia = new Media('file:///audio/' + i + '.wav');
+				//var sMedia = new Media(getPhoneGapPath() + i + '.wav');
+				var sMedia = new Media(i + '.wav');
 				sMedia.play();				
 			});
 		}catch(e){
 		  alert('audio event = ' + e);
 		}
 	}	
+}
+function getPhoneGapPath() {
+    var path = window.location.pathname;
+    var phoneGapPath = path.substring(0, path.lastIndexOf('/') + 1);
+    return phoneGapPath;
 }
 
 function reloadPage(){
