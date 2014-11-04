@@ -175,9 +175,9 @@
 <div class="btnArr bRight" title="下一頁"></div>
 
 <div class="aGroup">
-	<div class="btn bAudio" rel="1" title="聆聽 demo1"></div>
-	<div class="btn bAudio" rel="2" title="聆聽 demo2"></div>
-	<div class="btn bAudio" rel="3" title="聆聽 demo3"></div>
+	<div class="btn bAudio" rel="1.mp3" title="聆聽 demo1"></div>
+	<div class="btn bAudio" rel="2.wav" title="聆聽 demo2"></div>
+	<div class="btn bAudio" rel="3.wav" title="聆聽 demo3"></div>
 </div>
 
 <div class="btnOne bPage" title="頁籤"></div>
@@ -209,7 +209,7 @@ function pauseAudio(){
 function playAudio(i){	
 	pauseAudio();
 	i = i || 1;
-	$('#ado')[0].src = './audio/' + i + '.wav';
+	$('#ado')[0].src = './audio/' + i;
 	$('#ado')[0].play();
 	/*
 	if(typeof Media === 'undefined') {	
