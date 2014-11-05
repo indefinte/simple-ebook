@@ -210,10 +210,15 @@ function pauseAudio(){
 	*/
 }
 function playAudio(i){	
-	pauseAudio();
-	i = i || 1;
-	$('#ado')[0].src = './audio/' + i;
-	$('#ado')[0].play();
+	i = i || '1.mp3';
+	if(checkDeviceType() == 'Android'){
+		var sMedia = new Media('file:///android_asset/www/audio/' + i);
+		sMedia.play();		
+	}else{
+		pauseAudio();		
+		$('#ado')[0].src = './audio/' + i;
+		$('#ado')[0].play();
+	}
 	/*
 	if(typeof Media === 'undefined') {	
 		//alert('audio mode 1');
