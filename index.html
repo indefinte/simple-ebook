@@ -126,7 +126,7 @@
 	.bBrown { color: #003870; background-color: #A35200; }
 	.bLeft{ left: 0; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/arrL.png); -webkit-border-top-right-radius: 32px; -moz-border-radius-topright: 32px; border-top-right-radius: 32px;  }
 	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 32px; -moz-border-radius-topleft: 32px; border-top-left-radius: 32px; }
-	.bPage{ left: 2px; top: 42px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
+	.bPage{ left: 6px; top: 42px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
 	.bTrash{ 
 		left: 45%; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/trash.png); background-color: #FFF; z-index: 105; 
 		width: 64px;
@@ -189,7 +189,7 @@
 <audio id="ado"></audio>
 
 <script type="text/javascript">
-window.allPages = 46;
+window.allPages = 48;
 window.zoom = 1;
 
 document.onselectstart = function(e){ e.preventDefault(); }
@@ -548,7 +548,7 @@ function btnArrEvent(){
 		break;
 	}		
 }		
-function btnEvent(){			
+function btnEvent(){
 	switch(true){
 		case $(this).hasClass('bAudio'):
 			playAudio($(this).attr('rel'));
