@@ -70,13 +70,14 @@
 		width: 30%; 
 		height: 75%; 
 		background-color: rgba(154,202,101,0.5); 
+		 overflow-y: auto; overflow-x: hidden;
 		-webkit-border-top-right-radius: 16px; -moz-border-radius-topright: 16px; border-top-right-radius: 16px;
 		-webkit-border-top-left-radius: 16px; -moz-border-radius-topleft: 16px; border-top-left-radius: 16px;
 		-webkit-border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; border-bottom-right-radius: 0;
 		-webkit-border-bottom-left-radius: 0; -moz-border-radius-bottomleft: 0; border-bottom-left-radius: 0;	
 	}
-	.aDown { width: 70px; height: 36px; }
-	.aGroup { position: absolute; right: 100px; bottom: 0; padding: 10px 20px; z-index: 999; overflow-y: auto; overflow-x: hidden; -webkit-transition: width .4s, height .4s; transition: width .4s, height .4s; }		
+	.aDown { width: 70px; height: 36px; overflow: hidden; }
+	.aGroup { position: absolute; right: 100px; bottom: 0; padding: 10px 20px; z-index: 999; -webkit-transition: width .4s, height .4s; transition: width .4s, height .4s; }		
 	.bGroup { position: absolute; width: 42px; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
 		cursor: pointer;
@@ -159,6 +160,7 @@
 	.bRight { right: 0; bottom: 0;  background-repeat: no-repeat; background-position: center; background-image: url(images/arrR.png); -webkit-border-top-left-radius: 32px; -moz-border-radius-topleft: 32px; border-top-left-radius: 32px; }
 	.bPage{ left: 6px; top: 42px; background-repeat: no-repeat; background-position: center; background-image: url(images/page.png); background-color: #FFF; }
 	.bTrash{ 
+		display: none;
 		left: 45%; bottom: 0; background-repeat: no-repeat; background-position: center; background-image: url(images/trash.png); background-color: #FFF; z-index: 105; 
 		width: 64px;
 		-webkit-border-top-left-radius: 16px; -moz-border-radius-topleft: 16px; border-top-left-radius: 16px;
@@ -322,6 +324,9 @@ function addNoteDiv(s,l,t){
 	t = t > window.nH ? Math.floor(window.nH / 2) : t;
 	
 	var o = $('<div class="nt">' + s + '</div>').appendTo('#note').draggable({
+		start: function(event, ui) {
+			$('.bTrash').fadeIn();
+		},
 		drag: function(event, ui) {			
 			if(window.nH < $(this).height()){
 				//可視範圍 < 文件範圍
@@ -361,6 +366,7 @@ function addNoteDiv(s,l,t){
 		},
 		stop : function(event, ui){
 			saveNotes();
+			$('.bTrash').hide();
 		},
 		scroll: false,
 		cursor: 'move'		
@@ -700,6 +706,7 @@ function loadApp(){
 		//console.log(ui.draggable);
         ui.draggable.remove();
 		saveNotes();
+		$(this).hide();
       }
     });
 	
