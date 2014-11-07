@@ -55,6 +55,7 @@
 		overflow: auto;
 	}
 	.np { cursor: pointer; position: relative; text-align: right; width: 132px; margin: -24px 0 10px 3px; padding: 0 4px; background-color: rgba(0,102,153,.5); }
+	.cls { clear: both; }
 	
 	.pGroup { position: absolute; width: 0; left: 0; top: 80px; bottom: 70px; z-index: 999; overflow: auto; -webkit-transition: width .4s; transition: width .4s; }
 	.pGroup img {
@@ -65,7 +66,17 @@
 		margin: 2px;
 	}
 	
-	.aGroup { position: absolute; width: 30%; height: 70px; right: 100px; bottom: 0; z-index: 999; overflow-y: auto; overflow-x: hidden; }	
+	.aUp { 
+		width: 30%; 
+		height: 75%; 
+		background-color: rgba(154,202,101,0.5); 
+		-webkit-border-top-right-radius: 16px; -moz-border-radius-topright: 16px; border-top-right-radius: 16px;
+		-webkit-border-top-left-radius: 16px; -moz-border-radius-topleft: 16px; border-top-left-radius: 16px;
+		-webkit-border-bottom-right-radius: 0; -moz-border-radius-bottomright: 0; border-bottom-right-radius: 0;
+		-webkit-border-bottom-left-radius: 0; -moz-border-radius-bottomleft: 0; border-bottom-left-radius: 0;	
+	}
+	.aDown { width: 70px; height: 36px; }
+	.aGroup { position: absolute; right: 100px; bottom: 0; padding: 10px 20px; z-index: 999; overflow-y: auto; overflow-x: hidden; -webkit-transition: width .4s, height .4s; transition: width .4s, height .4s; }		
 	.bGroup { position: absolute; width: 42px; right: 0; top: 20px; bottom: 35px; z-index: 999; overflow: auto; }
 	.btn {
 		cursor: pointer;
@@ -118,29 +129,33 @@
 	.bClear { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/clear.png); }		
 	.bEraser { color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/eraser.png); }		
 	
-	.bAudio { float: right; margin: 35px 10px 0 10px; color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/audio.png); }		
+	.bAudioArr { float: right; margin: 0; color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/music.png); }		
+	.bAudioArr.bUp { background-image: url(images/down.png); }		
+	.bAudio { float: right; margin: 35px 20px 0 10px; color: #003870; background-color: #E0E0E0; background-repeat: no-repeat; background-position: center; background-image: url(images/audio.png); }		
 	.bAudio:after{
 		content: attr(title);
 		display: inline-block;
 		position: relative;
-		color: #385000;
+		color: #fff;
 		font-size: 9px;
-		top: -35px;
+		top: 30px;
+		left: -5px;
 		max-width: 50px;
 		overflow: hidden;
 		text-align: center;
 		white-space: nowrap;
 		font-weight: normal;
 		
-		background-color: rgba(248,170,4,0.3);
+		background-color: rgba(50,94,3,1);
 		border-radius: 3px; 
-		padding: 0 3px;
+		padding: 0 5px;
 		/* 
 		background-color: #f8aa04;
 		border-radius: 3px; 
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);		
 		*/				
 	}
+	
 	.bPurple { color: #003870; background-color: #B8008A; }
 	.bGreen { color: #003870; background-color: #8BD864; }
 	.bYellow { color: #003870; background-color: #FFFF3D; }
@@ -198,7 +213,9 @@
 <div class="btnArr bLeft" title="上一頁"></div>
 <div class="btnArr bRight" title="下一頁"></div>
 
-<div class="aGroup">
+<div class="aGroup aDown">
+	<div class="btn bAudioArr bDown" rel="" title="聆聽"></div>
+	<div class="cls"></div>
 	<div class="btn bAudio" rel="1.mp3" title="八色鳥"></div>
 	<div class="btn bAudio" rel="2.mp3" title="大卷尾"></div>
 	<div class="btn bAudio" rel="3.mp3" title="大冠鷲"></div>
@@ -596,6 +613,15 @@ function btnArrEvent(){
 }		
 function btnEvent(){
 	switch(true){
+		case $(this).hasClass('bAudioArr'):
+			if($(this).hasClass('bUp')){
+				$(this).removeClass('bUp').addClass('bDown');
+				$('.aGroup').removeClass('aUp').addClass('aDown').attr('title','聆聽');
+			}else if($(this).hasClass('bDown')){
+				$(this).removeClass('bDown').addClass('bUp');
+				$('.aGroup').removeClass('aDown').addClass('aUp').attr('title','收合');				
+			}
+		break;
 		case $(this).hasClass('bAudio'):
 			playAudio($(this).attr('rel'));
 		break;
