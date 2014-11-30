@@ -305,8 +305,7 @@ function redraw()
 	}	
 	
 	context.restore();
-	context.globalAlpha = 1; // No IE support
-
+	context.globalAlpha = 1; // No IE support	
 }
 
 
