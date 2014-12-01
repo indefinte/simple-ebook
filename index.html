@@ -533,7 +533,7 @@ function setPage(pg){
 }
 function setAudioList(pg){
 	$('.ag').hide();
-	$('.a' + pg).show();
+	$('.a' + (parseInt(pg) + 1)).show();
 	if($('.ag').filter(function(){ return $(this).css('display') === 'block'; }).length > 0){
 		$('.aGroup').show();
 	}else{
