@@ -18,7 +18,21 @@
     </author>
 	
 	<icon src="icon.png" />
+	 
+	<icon src="icon.png" gap:platform="ios" />
+	<icon src="icon57.png" gap:platform="ios" width="57" height="57" />
+	<icon src="icon72.png" gap:platform="ios" width="72" height="72" />
+	<icon src="icon76.png" gap:platform="ios" width="76" height="76" />
+	<icon src="icon120.png" gap:platform="ios" width="120" height="120" />
+	<icon src="icon152.png" gap:platform="ios" width="152" height="152" />
 	
+	<icon src="icon57.png" gap:platform="android" gap:qualifier="ldpi" />
+	<icon src="icon72.png" gap:platform="android" gap:qualifier="mdpi" />
+	<icon src="icon76.png" gap:platform="android" gap:qualifier="hdpi" />
+	<icon src="icon120.png" gap:platform="android" gap:qualifier="xhdpi" />
+	<icon src="icon152.png" gap:platform="android" gap:qualifier="xxhdpi" />
+	<icon src="icon.png" gap:platform="android" gap:qualifier="fr-xxhdpi" />
+
 	<gap:plugin name="org.apache.cordova.media" />
 	
 	<gap:platform name="ios" />
